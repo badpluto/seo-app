@@ -7,8 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
-<header></header>
-
 <div class="container-fluid">
     <div class="m-5">
         <div class="d-flex justify-content-center">
@@ -52,17 +50,13 @@
         </div>
     </div>
 </div>
-<footer></footer>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script>
-    // $(document).ready(function(){
-    //     $("h1").css('color', 'red');
-    //     $("p").css({ 'color': 'blue', 'font-size': '18px' });
-    // });
+
 </script>
 </body>
 </html>
