@@ -28,7 +28,7 @@ class SiteController extends Controller
             echo "n";
         }
         return $result;
-//        $client = null;
+        $client = null;
 
     }
 }
