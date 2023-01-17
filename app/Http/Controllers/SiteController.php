@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use app\Clients\RestClient;
+use app\Clients\RestClientException;
 use Illuminate\Http\JsonResponse;
-use App\Http\Clients\RestClient;
-use App\Exceptions\RestClientException;
+use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
-    public function send($request): JsonResponse
+    public function send(Request $request): JsonResponse
     {
         $result = [];
         $api_url = 'https://api.dataforseo.com/';

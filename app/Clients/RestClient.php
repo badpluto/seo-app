@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Http\Clients;
-
-use App\Exceptions\RestClientException;
+namespace app\Clients;
 
 class RestClient
 {
