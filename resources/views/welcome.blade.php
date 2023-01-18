@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SeoProfy API</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -9,16 +10,22 @@
 </head>
 <div class="container-fluid">
     <div class="m-5">
-        <div class="d-flex justify-content-center">
-            <div class="col-lg-4">
-                <div class="input-group-text">
-                    <input id="target" type="search" name="target" class="form-control rounded" placeholder="https://example.com"
-                           aria-label="Search"
-                           aria-describedby="search-addon"/>
-                    <button type="submit" value="send" class="btn btn-outline-primary">Find Backlinks</button>
+        <form name="searchForm" id="searchForm" method="post" action="javascript:void(0)">
+            @csrf
+            <div class="d-flex justify-content-center">
+                <div class="col-lg-4">
+                    <div class="input-group-text">
+                        <input id="target" type="search" name="target" class="form-control rounded"
+                               placeholder="https://example.com"
+                               aria-label="Search"
+                               aria-describedby="search-addon"/>
+                        <button type="submit" value="submit" id="submit" class="btn btn-outline-primary">Find
+                            Backlinks
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 <div class="container-fluid">
@@ -56,7 +63,61 @@
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script>
-
+    if ($("#searchForm").length > 0) {
+        $("#searchForm").validate({
+            rules: {
+                target: {
+                    required: true,
+                    maxlength: 255
+                },
+            },
+            messages: {
+                target: {
+                    required: "Please enter target",
+                    maxlength: "Your target maxlength should be 255 characters long."
+                },
+            },
+            submitHandler: function (form) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $('#submit').html('Please Wait...');
+                $("#submit").attr("disabled", true);
+                $.ajax({
+                    url: "{{url('send')}}",
+                    type: "POST",
+                    data: $('#searchForm').serialize(),
+                    success: function (response) {
+                        document.getElementById("searchForm").reset();
+                        //релоад страницы
+                    }
+                });
+            }
+        })
+    }
+    // $(document).ready(function () {
+    //     $('#searchForm').on('submit', function (e) {
+    //         e.preventDefault();
+    //
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: '/send',
+    //             data: $('#searchForm').serialize(),
+    //             success: function (data) {
+    //                 if (data.result) {
+    //
+    //                 } else {
+    //
+    //                 }
+    //             },
+    //             error: function () {
+    //
+    //             }
+    //         });
+    //     });
+    // });
 </script>
 </body>
 </html>

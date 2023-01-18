@@ -2,33 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use app\Clients\RestClient;
-use app\Clients\RestClientException;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\BacklinkRequest;
+use App\Models\Backlink;
+use App\Services\BacklinkService;
 use Illuminate\Http\Request;
+use Exception;
 
 class SiteController extends Controller
 {
-    public function send(Request $request): JsonResponse
+    protected BacklinkService $backlinkService;
+
+    public function __construct(BacklinkService $backlinkService)
     {
-        $result = [];
-        $api_url = 'https://api.dataforseo.com/';
+        $this->backlinkService = $backlinkService;
+    }
 
-        $client = new RestClient($api_url, config('services.dfs_token'));
-        try {
-            $result = $client->post('/v3/backlinks/backlinks/live', $request->target);
-//            print_r($result);
-            // do something with post result
-        } catch (RestClientException $e) {
-            echo "n";
-            print "HTTP code: {$e->getHttpCode()}n";
-            print "Error code: {$e->getCode()}n";
-            print "Message: {$e->getMessage()}n";
-            print  $e->getTraceAsString();
-            echo "n";
+    public function index(BacklinkRequest $request)
+    {
+        return view('welcome', [
+            'content' => $this->backlinkService-getResult(),
+        ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function send(BacklinkRequest $request)
+    {
+        if ($request->target == null) {
+            throw new Exception('Not data', 405);
         }
-        return $result;
-        $client = null;
 
+        $result = $this->backlinkService->getResponseFromAPI($request->target);
+
+        if(!empty($result)){
+            $this->backlinkService->saveToDb($result);
+        }
     }
 }
