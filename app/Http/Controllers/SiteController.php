@@ -7,7 +7,13 @@ use App\Models\Backlink;
 use App\Services\BacklinkService;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\View\View;
 
+/**
+ * Class SiteController
+ * @package App\Http\Controllers
+ * @author Vladyslav Hychka <vlad.hychka@gmail.com>
+ */
 class SiteController extends Controller
 {
     protected BacklinkService $backlinkService;
@@ -17,20 +23,21 @@ class SiteController extends Controller
         $this->backlinkService = $backlinkService;
     }
 
-    public function index(BacklinkRequest $request)
+    public function index(): View
     {
-        return view('welcome', [
-            'content' => $this->backlinkService-getResult(),
-        ]);
+        return view('welcome');
+//        [
+//            'content' => $this->backlinkService->getResult(),
+//        ]);
     }
 
     /**
      * @throws Exception
      */
-    public function send(BacklinkRequest $request)
+    public function sendRequestToAPI(BacklinkRequest $request)
     {
         if ($request->target == null) {
-            throw new Exception('Not data', 405);
+            throw new Exception('No data', 405);
         }
 
         $result = $this->backlinkService->getResponseFromAPI($request->target);

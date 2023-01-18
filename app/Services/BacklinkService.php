@@ -2,10 +2,15 @@
 
 namespace App\Services;
 
-use app\Clients\RestClient;
-use app\Clients\RestClientException;
+use App\Clients\RestClient;
+use App\Clients\RestClientException;
 use App\Models\Backlink;
 
+/**
+ * Class BacklinkService
+ * @package App\Services
+ * @author Vladyslav Hychka <vlad.hychka@gmail.com>
+ */
 class BacklinkService
 {
     public function getResponseFromAPI(string $target): array
@@ -13,9 +18,9 @@ class BacklinkService
         $api_url = 'https://api.dataforseo.com/';
 
         $client = new RestClient($api_url, config('services.dfs_token'));
+
         try {
             $result = $client->post('/v3/backlinks/backlinks/live', $target);
-            // do something with post result
         } catch (RestClientException $e) {
             echo "n";
             print "HTTP code: {$e->getHttpCode()}n";
@@ -319,6 +324,8 @@ class BacklinkService
 
     public function getResult(): array
     {
-        $backlink = Backlink::find()->all();
+        $backlinks = Backlink::find()->all();
+
+        return $backlinks;
     }
 }

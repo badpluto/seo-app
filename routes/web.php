@@ -15,4 +15,4 @@ use App\Http\Controllers\SiteController;
 */
 
 Route::get('', [SiteController::class, 'index'])->name('index');
-Route::post('send', [SiteController::class, 'send'])->name('send');
+Route::post('search-form', [SiteController::class, 'sendRequestToAPI'])->name('search-form');
