@@ -17,8 +17,9 @@ class BacklinkService
     public function getResponseFromAPI(string $target): array
     {
         $api_url = 'https://api.dataforseo.com/';
+//        e3e3731789bf4877 config('services.dfs_token')
 
-        $client = new RestClient($api_url, config('services.dfs_token'));
+        $client = new RestClient($api_url, null, 'vlad.hychka@gmail.com', 'e3e3731789bf4877');
         $post_array = [
             'target' => $target,
             'mode'   => 'as_is',
@@ -307,14 +308,14 @@ class BacklinkService
     }
   ]
 }';
-        $res = json_decode($result);
+        $res = json_decode($result, true);
 
         return $res;
     }
 
     public function saveToDb(array $dataSeo): bool
     {
-        $items = $dataSeo['tasks']['result']['items'];
+        $items = $dataSeo['tasks'][0]['result'][0]['items'];
 
         foreach ($items as $item) {
             $model = new Backlink();
