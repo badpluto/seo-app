@@ -17,7 +17,7 @@ class BacklinkService
     public function getResponseFromAPI(string $target): array
     {
         $api_url = 'https://api.dataforseo.com/';
-//        e3e3731789bf4877 config('services.dfs_token')
+//      Base64 Token  config('services.dfs_token') . doesnt work by Token
 
         $client = new RestClient($api_url, null, 'vlad.hychka@gmail.com', 'e3e3731789bf4877');
         $post_array = [
@@ -318,11 +318,12 @@ class BacklinkService
         $items = $dataSeo['tasks'][0]['result'][0]['items'];
 
         foreach ($items as $item) {
-            $model = new Backlink();
-            $model->url_from = $item['url_from'];
-            $model->url_to = $item['url_to'];
-            $model->rank = $item['rank'];
-            $model->save();
+            Backlink::create([
+                'target' => 'http://forbes.com',
+                'url_from' => $item['url_from'],
+                'url_to'   => $item['url_to'],
+                'rank'     => $item['rank']
+            ]);
         }
 
         return true;
@@ -330,8 +331,6 @@ class BacklinkService
 
     public function getResult(): array
     {
-        $backlinks = Backlink::find()->all();
-
-        return $backlinks;
+        return Backlink::find()->all();
     }
 }
