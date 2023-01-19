@@ -16,19 +16,31 @@ use Illuminate\View\View;
  */
 class SiteController extends Controller
 {
+    /**
+     * @var BacklinkService
+     */
     protected BacklinkService $backlinkService;
 
+    /**
+     * @param BacklinkService $backlinkService
+     */
     public function __construct(BacklinkService $backlinkService)
     {
         $this->backlinkService = $backlinkService;
     }
 
+    /**
+     * @return View
+     */
+
     public function index(): View
     {
-        return view('welcome');
-//        [
-//            'content' => $this->backlinkService->getResult(),
-//        ]);
+        return view(
+            'welcome',
+            [
+                'results' => $this->backlinkService->getResult(),
+            ]
+        );
     }
 
     /**
@@ -42,7 +54,7 @@ class SiteController extends Controller
 
         $result = $this->backlinkService->getResponseFromAPI($request->target);
 
-        if(!empty($result)){
+        if (!empty($result)) {
             $this->backlinkService->saveToDb($result);
         }
     }

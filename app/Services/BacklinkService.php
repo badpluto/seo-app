@@ -14,6 +14,10 @@ use Illuminate\Support\Benchmark;
  */
 class BacklinkService
 {
+    /**
+     * @param string $target
+     * @return array
+     */
     public function getResponseFromAPI(string $target): array
     {
         $api_url = 'https://api.dataforseo.com/';
@@ -313,13 +317,17 @@ class BacklinkService
         return $res;
     }
 
+    /**
+     * @param array $dataSeo
+     * @return bool
+     */
     public function saveToDb(array $dataSeo): bool
     {
         $items = $dataSeo['tasks'][0]['result'][0]['items'];
 
         foreach ($items as $item) {
             Backlink::create([
-                'target' => 'http://forbes.com',
+                'target'   => 'http://forbes.com',
                 'url_from' => $item['url_from'],
                 'url_to'   => $item['url_to'],
                 'rank'     => $item['rank']
@@ -329,8 +337,11 @@ class BacklinkService
         return true;
     }
 
-    public function getResult(): array
+    /**
+     * @return mixed
+     */
+    public function getResult()
     {
-        return Backlink::find()->all();
+        return Backlink::orderBy('rank', 'desc')->get();
     }
 }

@@ -28,35 +28,34 @@
         </form>
     </div>
 </div>
-<div class="container-fluid">
-    <div class="m-5">
-        <div class="d-flex justify-content-center">
-            <div class="col-lg-6">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th scope="col">Url From</th>
-                        <th scope="col">Url to</th>
-                        <th scope="col">Rank</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Test Url From 1</td>
-                        <td>Test Url to 1</td>
-                        <td>Test Rank 1</td>
-                    </tr>
-                    <tr>
-                        <td>Test Url From 2</td>
-                        <td>Test Url To 2</td>
-                        <td>Test Rank 2</td>
-                    </tr>
-                    </tbody>
-                </table>
+@if(count($results) > 0)
+    <div class="container-fluid">
+        <div class="m-5">
+            <div class="d-flex justify-content-center">
+                <div class="col-lg-6">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="col">Url From</th>
+                            <th scope="col">Url to</th>
+                            <th scope="col">Rank</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($results as $result)
+                            <tr>
+                                <td>{{ $result->url_from }}</td>
+                                <td>{{ $result->url_to }}</td>
+                                <td>{{ $result->rank }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endif
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
@@ -91,33 +90,12 @@
                     data: $('#searchForm').serialize(),
                     success: function (response) {
                         document.getElementById("searchForm").reset();
-                        //релоад страницы
+                        window.location.reload();
                     }
                 });
             }
         })
     }
-    // $(document).ready(function () {
-    //     $('#searchForm').on('submit', function (e) {
-    //         e.preventDefault();
-    //
-    //         $.ajax({
-    //             type: 'POST',
-    //             url: '/send',
-    //             data: $('#searchForm').serialize(),
-    //             success: function (data) {
-    //                 if (data.result) {
-    //
-    //                 } else {
-    //
-    //                 }
-    //             },
-    //             error: function () {
-    //
-    //             }
-    //         });
-    //     });
-    // });
 </script>
 </body>
 </html>
