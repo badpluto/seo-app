@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Clients\RestClient;
 use App\Clients\RestClientException;
 use App\Models\Backlink;
+use Illuminate\Support\Benchmark;
 
 /**
  * Class BacklinkService
@@ -18,9 +19,13 @@ class BacklinkService
         $api_url = 'https://api.dataforseo.com/';
 
         $client = new RestClient($api_url, config('services.dfs_token'));
+        $post_array = [
+            'target' => $target,
+            'mode'   => 'as_is',
+        ];
 
         try {
-            $result = $client->post('/v3/backlinks/backlinks/live', $target);
+            $result = $client->post('/v3/backlinks/backlinks/live', $post_array);
         } catch (RestClientException $e) {
             echo "n";
             print "HTTP code: {$e->getHttpCode()}n";
