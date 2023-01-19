@@ -1,5 +1,6 @@
 # SEO APP for SeoProfy
 seo-app its app with integration 3rd party API, which returns Backlinks for link.
+- Its uses [DataForSeoAPI](https://app.dataforseo.com/)
 
 # Requirements
 - [Docker](https://docs.docker.com/get-docker)
